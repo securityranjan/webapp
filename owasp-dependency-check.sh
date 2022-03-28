@@ -19,7 +19,7 @@ docker pull owasp/dependency-check
 docker run --rm \
     --volume $(pwd):/src \
     --volume "$DATA_DIRECTORY":/home/ubuntu/OWASP-Dependency-Check/data \
-    --volume "$REPORT_DIRECTORY":/report \
+    --volume "$REPORT_DIRECTORY":/home/ubuntu/OWASP-Dependency-Check/reports \
     owasp/dependency-check \
     --scan /src \
     --format "ALL" \
