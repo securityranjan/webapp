@@ -13,13 +13,6 @@ pipeline {
       }
     }
     
-    
-    stage ('Build') {
-      steps {
-      sh 'mvn clean package'
-       }
-    }
-    
     stage ('SAST') {
       steps {
         withSonarQubeEnv('sonar') {
@@ -28,6 +21,14 @@ pipeline {
         }
       }
     }
+    
+    stage ('Build') {
+      steps {
+      sh 'mvn clean package'
+       }
+    }
+    
+   
     
     stage ('Deploy-To-Tomcat') {
             steps {
