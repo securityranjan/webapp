@@ -22,9 +22,7 @@ pipeline {
     
      stage('Veracode Pipeline Scan') {
       steps {
-        sh 'curl -O https://downloads.veracode.com/securityscan/pipeline-scan-LATEST.zip'
-        sh 'unzip pipeline-scan-LATEST.zip pipeline-scan.jar'
-        sh 'java -jar pipeline-scan.jar \
+         sh 'java -jar pipeline-scan.jar \
           --veracode_api_id "8dd5f5141e52f8c4d9b84c2479c76557" \
           --veracode_api_key "3d843641ebe458a5a0aafc858d5be6f9fb73edb846bb4a009500f9d540db3793f81a185cbe2aaca5374f84b50dfe7a2f1346465d396024ecc4b7e0c77d3ba6a0" \
           --file "target/*.war" \
