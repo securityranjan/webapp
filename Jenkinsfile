@@ -27,7 +27,7 @@ pipeline {
          --veracode_api_id "${VERACODE_API_ID}" \
          --veracode_api_key "${VERACODE_API_SECRET}" \
          --file "build/libs/sample.jar" \
-         --fail_on_severity="Very High" \
+         --fail_on_severity='High' \
          --fail_on_cwe="80" \
          --baseline_file "${CI_BASELINE_PATH}" \
          --timeout "${CI_TIMEOUT}" \
