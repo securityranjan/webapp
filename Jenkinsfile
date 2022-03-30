@@ -21,9 +21,9 @@ pipeline {
         }
         stage('Veracode Pipeline Scan') {
         steps {
-        - sh `curl -O https://downloads.veracode.com/securityscan/pipeline-scan-LATEST.zip`
-        - sh `unzip pipeline-scan-LATEST.zip pipeline-scan.jar`
-        - sh `java -jar pipeline-scan.jar \
+        - sh 'curl -O https://downloads.veracode.com/securityscan/pipeline-scan-LATEST.zip'
+        - sh 'unzip pipeline-scan-LATEST.zip pipeline-scan.jar'
+        - sh 'java -jar pipeline-scan.jar' \
         --veracode_api_id "${VERACODE_API_ID}" \
         --veracode_api_key "${VERACODE_API_SECRET}" \
         --file "build/libs/sample.jar" \
