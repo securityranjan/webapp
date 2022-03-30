@@ -13,14 +13,24 @@ pipeline {
       }
     }
     
-    stage ('SAST') {
+      stage ('Check-Git-Secrets') {
       steps {
-        withSonarQubeEnv('sonar') {
-          sh 'mvn sonar:sonar'
-          sh 'cat target/sonar/report-task.txt'
-        }
+        sh 'rm trufflehog || true'
+        sh 'docker run gesellix/trufflehog --json https://github.com/singhkranjan/webapp.git > trufflehog'
+        sh 'cat trufflehog'
       }
     }
+    
+  stage ('Source Composition Analysis') {
+      steps {
+        sh 'rm owasp* || true'
+        sh  'wget https://raw.githubusercontent.com/singhkranjan/webapp/master/owasp-dependency-check.sh'
+        sh 'chmod +x owasp-dependency-check.sh'
+        sh 'bash owasp-dependency-check.sh'
+        sh 'cat /var/lib/jenkins/workspace/webapp-cicd-pipeline/odc-reports/dependency-check-report.xml'
+      }
+    } 
+ 
     
     stage ('Build') {
       steps {
