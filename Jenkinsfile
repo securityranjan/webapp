@@ -14,34 +14,16 @@ pipeline {
     }
     
      
-     stage('Maven Build') {
-        steps {
-         sh 'mvn clean verify'
-        }
-        }
-        stage('Veracode Pipeline Scan') {
-        steps {
-         sh 'curl -O https://downloads.veracode.com/securityscan/pipeline-scan-LATEST.zip'
-         sh 'unzip pipeline-scan-LATEST.zip pipeline-scan.jar'
-         sh 'java -jar pipeline-scan.jar' \
-         --veracode_api_id "${VERACODE_API_ID}" \
-         --veracode_api_key "${VERACODE_API_SECRET}" \
-         --file "build/libs/sample.jar" \
-         --fail_on_severity='High' \
-         --fail_on_cwe="80" \
-         --baseline_file "${CI_BASELINE_PATH}" \
-         --timeout "${CI_TIMEOUT}" \
-         --project_name "${env.JOB_NAME}" \
-         --project_url "${env.GIT_URL}" \
-         --project_ref "${env.GIT_COMMIT}" \
-        }
-        }
-        }
-        post {
-        always {
-        archiveArtifacts artifacts: 'results.json', fingerprint: true
-        }
-        }
+    stage ('Veracode'){
+      
+    docker run -it --rm \
+    --env VERACODE_API_KEY_ID=f71e60239ebde6119c2b7ff19174983c \
+    --env VERACODE_API_KEY_SECRET=1d5314c4a95346b5d2be96ac9b0cd2cae45cb0aa844f40157b2c36dce06558ee52c9b2ab77aa3b4828a3c6adc08e88350b23c72e96fdd2ccba9ad34280e90ab1 \
+    -v /host/os/path/to/myapp/:/myapp/ \
+    veracode/pipeline-scan:cmd \
+        -vid $VERACODE_API_KEY_ID -vkey $VERACODE_API_KEY_SECRET \
+        --file /myapp/myapp.jar
+    }
           
     stage ('Build') {
       steps {
