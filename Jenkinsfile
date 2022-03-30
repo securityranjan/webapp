@@ -23,9 +23,7 @@ pipeline {
     
   stage ('Source Composition Analysis') {
       steps {
-        sh 'rm owasp* || true'
-        sh  'wget https://raw.githubusercontent.com/singhkranjan/webapp/master/owasp-dependency-check.sh'
-        sh 'chmod +x owasp-dependency-check.sh'
+        
         sh 'bash owasp-dependency-check.sh'
         sh 'cat /var/lib/jenkins/workspace/webapp-cicd-pipeline/odc-reports/dependency-check-report.xml'
       }
@@ -43,7 +41,7 @@ pipeline {
     stage ('Deploy-To-Tomcat') {
             steps {
            sshagent(['tomcat']) {
-                sh 'scp -o StrictHostKeyChecking=no target/*.war ubuntu@15.206.123.214:/prod/apache-tomcat-9.0.60/webapps/webapp.war'
+                sh 'scp -o StrictHostKeyChecking=no target/*.war ubuntu@52.66.195.83:/prod/apache-tomcat-9.0.60/webapps/webapp.war'
               }      
            }       
     }
