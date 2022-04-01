@@ -8,7 +8,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>Devsecops</title>
+    <title>Devsecops POC IB</title>
 
 
     <!-- Custom styles for this template -->
