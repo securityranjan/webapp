@@ -23,7 +23,11 @@ pipeline {
        }
     }
     
- 
+    stage ('Qualys/DAST') {
+      steps{
+      sh 'getImageVulnsFromQualys imageIds: '', useGlobalConfig: true'
+      }
+    }
    
     
   }
