@@ -13,22 +13,27 @@ pipeline {
       }
     }
     
- 
-     
+  stage ('Check-Git-Secret') {
+      steps {
+        sh 'rm trufflehog || true'
+        sh 'docker run gesellix/trufflehog --json https://github.com/singhkranjan/webapp.git > trufflehog'
+        sh 'cat trufflehog'
+      }
+    } 
+  
     
-    
-    stage ('Build') {
+  stage ('Build') {
       steps {
       sh 'mvn clean package'
        }
     }
     
-    stage ('Qualys/DAST') {
-      steps{
-      sh 'getImageVulnsFromQualys imageIds: '', useGlobalConfig: true'
-      }
+    stage('DAST/Qualys'){
+        steps{
+            getImageVulnsFromQualys imageIds: 'e0421a24221d', useGlobalConfig: true
+        }
     }
-   
     
-  }
+    
+    }
 }
